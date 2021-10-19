@@ -27,3 +27,21 @@ stages:
         dockerfile: '$(Build.SourcesDirectory)/Mvc store/Dockerfile'
         tags: |
           $(tag)
+- task: Docker@2
+  inputs:
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+    tags: |
+      rydhadockerhub
+      /products-storeon-mvc:v2.$(Build.BuildId)
+- task: CopyFiles@2
+  inputs:
+    Contents: |
+      **
+      mssql-config-map.yaml
+      mssql-pv-azure.yaml
+      mssql-secret.yaml
+      mvc-deployment-azure.yaml
+      product-mssql-deployemnt.yaml
+      mvc-deployment.yaml
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
